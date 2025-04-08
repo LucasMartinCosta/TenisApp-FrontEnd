@@ -84,4 +84,11 @@ export class VerAlumnosComponent implements OnInit{
     });
   }
 
+  enviarWhatsapp(celular: string): void {
+    // Asegurarse de que el número esté en formato internacional, sin espacios ni signos
+    const numeroLimpio = celular.replace(/\D/g, ''); // Elimina todo menos los números
+    const url = `https://wa.me/${numeroLimpio}`;
+    window.open(url, '_blank');
+  }
+
 }

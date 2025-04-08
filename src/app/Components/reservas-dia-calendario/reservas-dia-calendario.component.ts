@@ -35,7 +35,7 @@ export class ReservasDiaCalendarioComponent implements OnInit{
    this.cargarReservas();
   }
   
-
+  @Output() actualizarAlumnos = new EventEmitter<void>(); 
   
   private service = inject(ReservasService);
   private dialog=inject(MatDialog);

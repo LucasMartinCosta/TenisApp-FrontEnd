@@ -6,11 +6,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditProfesorComponent } from '../edit-profesor/edit-profesor.component';
 
 import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ver-profesores',
@@ -21,6 +22,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   styleUrl: './ver-profesores.component.css'
 })
 export class VerProfesoresComponent implements OnInit{
+
+
   ngOnInit(): void {
     this.cargarProfes();
   }
@@ -76,6 +79,13 @@ export class VerProfesoresComponent implements OnInit{
             this.cargarProfes(); // Recargamos la lista si se editó un alumno
           }
         });
+      }
+
+      enviarWhatsapp(celular: string): void {
+        // Asegurarse de que el número esté en formato internacional, sin espacios ni signos
+        const numeroLimpio = celular.replace(/\D/g, ''); // Elimina todo menos los números
+        const url = `https://wa.me/${numeroLimpio}`;
+        window.open(url, '_blank');
       }
 
 }
