@@ -15,7 +15,17 @@
             <mat-spinner></mat-spinner>
         </div>
      }
-    
+
+     <!-- Filtro de búsqueda -->
+           <mat-form-field>
+             <mat-label>Buscar por nombre</mat-label>
+             <input matInput placeholder="Ej: Juan" [(ngModel)]="filtroNombre" (keyup)="buscarPorNombre()" />
+           </mat-form-field>
+     
+           <mat-checkbox [(ngModel)]="mostrarSoloDeudores" (change)="toggleFiltroDeudores()">
+             Mostrar alumnos que deben cuota
+           </mat-checkbox>
+     
   
     <!-- Tabla de alumnos -->
      @if (alumnos.length > 0) {

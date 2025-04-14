@@ -37,4 +37,24 @@ export class AlumnosService {
       deleteAlumno(id?: number): Observable<any> {
         return this.http.delete(`${this.url}/${id}`);
       }
+
+      findAlumno (nombre:string) : Observable<AlumnoInterface>{
+        return this.http.get<AlumnoInterface>(`${this.url}/buscar/${nombre}`)
+      }
+
+      buscarPorNombreSimilar(texto: string): Observable<AlumnoInterface[]> {
+        return this.http.get<AlumnoInterface[]>(`${this.url}/buscar/nombre-similar?texto=${texto}`);
+      }
+
+      filtrarPorVecesPorSemana(veces: string): Observable<AlumnoInterface[]> {
+        return this.http.get<AlumnoInterface[]>(`${this.url}/filtrar/veces?veces=${veces}`);
+      }
+    
+      filtrarAlumnosDeudores(): Observable<AlumnoInterface[]> {
+        return this.http.get<AlumnoInterface[]>(`${this.url}/filtrar/cuota-impaga`);
+      }
+
+
+
+
 }

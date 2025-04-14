@@ -12,6 +12,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditAlumnoComponent } from '../edit-alumno/edit-alumno.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -22,7 +27,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   selector: 'app-ver-alumnos',
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatProgressSpinnerModule, MatTableModule, MatNativeDateModule, 
-    MatDatepickerModule ],
+    MatDatepickerModule, FormsModule, MatFormFieldModule, MatCheckboxModule, MatInputModule],
   templateUrl: './ver-alumnos.component.html',
   styleUrl: './ver-alumnos.component.css'
 })
@@ -90,5 +95,46 @@ export class VerAlumnosComponent implements OnInit{
     const url = `https://wa.me/${numeroLimpio}`;
     window.open(url, '_blank');
   }
+
+  filtroNombre: string = ""; // para el input
+
+buscarPorNombre(): void {
+  if (this.filtroNombre.trim() === "") {
+    this.cargarAlumnos();
+    return;
+  }
+
+  this.alumnoService.buscarPorNombreSimilar(this.filtroNombre).subscribe({
+    next: (data) => {
+      this.alumnos = data;
+    },
+    error: (err) => {
+      console.error('Error al buscar por nombre:', err);
+      this.mensaje = 'No se encontraron coincidencias.';
+    }
+  });
+}
+
+filtrarDeudores(): void {
+  this.alumnoService.filtrarAlumnosDeudores().subscribe({
+    next: (data) => {
+      this.alumnos = data;
+    },
+    error: (err) => {
+      console.error('Error al filtrar deudores:', err);
+      this.mensaje = 'No se pudieron cargar los alumnos con deuda.';
+    }
+  });
+}
+
+mostrarSoloDeudores: boolean = false;
+
+toggleFiltroDeudores(): void {
+  if (this.mostrarSoloDeudores) {
+    this.filtrarDeudores();
+  } else {
+    this.cargarAlumnos();
+  }
+}
 
 }
